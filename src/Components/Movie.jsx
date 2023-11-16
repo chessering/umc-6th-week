@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import Detail from "../Detail";
+import { useNavigate } from 'react-router-dom';
 import "./Movie.css";
 
 
-function Movie({src, alt, v, info}) {
+function Movie(props) {
   const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate();
 
   const showInfo = () => {
     setIsHovered(true);
@@ -12,22 +13,38 @@ function Movie({src, alt, v, info}) {
   const hideInfo = () => {
     setIsHovered(false);
   }
+  const onClickMovieItem = () => {
+    navigate(`/movie/${props.title}`, {
+      state:props,
+    })
+  }
 
     return (
       <div className="movieInfo" 
+      onClick={onClickMovieItem}
       onMouseEnter={showInfo}
       onMouseLeave={hideInfo}
       >
         <img className="movie-poster"
-          src={src} 
-          alt={alt}
+          
+          src={props.poster_path} 
+          alt="영화포스터"
           style={{filter: isHovered ? "brightness(30%)" : "brightness(100%)"}}
-          />
-          {isHovered && <Detail title={alt} info={info}/>}
+        />
+        {isHovered && <div className="detail">
+            <div style={{fontWeight:"600"}}>
+            {props.title}
+            </div>
+            <br/>
+            <div>
+            {props.info}
+            </div>  
+        </div>
+        }
 
         <div className="movieTitleBox">
-          <div className="movieTitle">{alt}</div>
-          <div className="rating">{v}</div>
+          <div className="movieTitle">{props.title}</div>
+          <div className="rating">{props.vote_average}</div>
         </div>
         
       </div>

@@ -1,28 +1,29 @@
 import React from 'react';
-import { movies } from "./movieDummy";
-import Movie from "./Components/Movie.jsx";
-import "./Components/Movie.css";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Header from "./Components/Header";
+import Movies from "./pages/Movies.jsx";
+import Tv from "./pages/Tv.jsx";
+import Home from "./pages/Home.jsx";
+import Celebrity from "./pages/Celebrity.jsx";
+import NotFound from "./pages/NotFound.jsx";
+import MovieDetail from "./pages/MovieDetail";
 
 
 function App() {
 
-  // var testUrl = movies.results.map((movie) => `https://image.tmdb.org/t/p/w1280${movie.poster_path}`);
-  // console.log(testUrl);
   
   return (
-    <div className="moviePage">
-      <div className="movieContainer">
-            {
-              movies.results.map((movie) => {
-                var PosterUrl = `https://image.tmdb.org/t/p/w1280${movie.poster_path}`;
-                return(
-                  <Movie src={PosterUrl} alt={movie.title} v={movie.vote_average} info={movie.overview}/>
-
-                )
-              })
-            }
-      </div>
-    </div>
+    <BrowserRouter>
+      <Header/>
+      <Routes>
+        <Route path='/' element={<Home/>} />
+        <Route path='/movies' element={<Movies/>} />
+        <Route path='/movie/:title' element={<MovieDetail/>}/>
+        <Route path='/person' element={<Celebrity/>} />
+        <Route path='/tv' element={<Tv/>} />
+        <Route path='/*/*' element={<NotFound/>} />
+      </Routes>
+    </BrowserRouter>
     
   );
 }
